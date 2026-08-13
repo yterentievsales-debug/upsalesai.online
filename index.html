@@ -1163,6 +1163,7 @@
 					}).then(r => r.json()).then(() => {
 						document.getElementById('form-success').classList.remove('hidden');
 						document.getElementById('form-content').classList.add('hidden');
+						showToast();
 					}).catch(() => {
 						document.getElementById('form-error').classList.remove('hidden');
 					});
@@ -1205,8 +1206,8 @@
 						<div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mb-6">
 							<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
 						</div>
-						<h3 class="text-2xl font-bold text-white mb-3">Заявка принята!</h3>
-						<p class="text-white/60">Мы свяжемся с вами в ближайшее время<br>и подключим бесплатную неделю в течение 24 часов.</p>
+						<h3 class="text-2xl font-bold text-white mb-3">Данные отправлены!</h3>
+						<p class="text-white/60">Ожидайте связи — мы перезвоним<br>в течение 24 часов и подключим бесплатную неделю.</p>
 					</div>
 
 					<div id="form-error" class="hidden text-center py-10">
@@ -1280,6 +1281,28 @@
 
 			document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 		})();
+
+		// Toast notification
+		function showToast() {
+			const toast = document.getElementById('toast');
+			toast.classList.remove('hidden');
+			toast.style.transform = 'translateY(0)';
+			toast.style.opacity = '1';
+			setTimeout(() => {
+				toast.style.transform = 'translateY(120%)';
+				toast.style.opacity = '0';
+			}, 5000);
+		}
 	</script>
+
+	<div id="toast" class="hidden fixed bottom-6 right-6 z-[100] max-w-sm glass-card p-5 flex items-center gap-4 transition-all duration-500" style="transform: translateY(120%); opacity: 0;">
+		<div class="w-12 h-12 shrink-0 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+			<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+		</div>
+		<div>
+			<p class="text-sm font-bold text-white">Данные отправлены!</p>
+			<p class="text-xs text-white/60 mt-0.5">Ждите связи с нашей командой</p>
+		</div>
+	</div>
 </body>
 </html>
