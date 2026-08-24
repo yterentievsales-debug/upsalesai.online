@@ -278,10 +278,13 @@
 		}
 
 		.stat-row {
-			transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+			transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s ease;
 			border-radius: 16px;
 			cursor: default;
+			opacity: 0;
+			transform: translateY(18px);
 		}
+		.stat-row.revealed { opacity: 1; transform: translateY(0); }
 		.stat-row:hover {
 			background: rgba(255,255,255,0.05);
 			transform: translateX(8px);
@@ -294,7 +297,7 @@
 		}
 		.conversion-fill {
 			height: 100%; border-radius: 4px;
-			transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+			transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
 		}
 		.conversion-fill.high { background: linear-gradient(90deg, #13C296, #22d3ee); }
 		.conversion-fill.medium { background: linear-gradient(90deg, #6a4de6, #a855f7); }
@@ -437,7 +440,7 @@
 		x-data="{ mobileMenu: false, scrolled: false }"
 		@scroll.window="scrolled = (window.pageYOffset > 60)"
 		:class="scrolled ? 'bg-dark/90 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'">
-		<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="container mx-auto px-[15%]">
 			<div class="flex items-center justify-between h-16 sm:h-20">
 				<a href="/" class="flex items-center gap-3 group">
 					<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
@@ -486,7 +489,7 @@
 		<div class="glow-orb orb-4"></div>
 
 		<div class="relative z-10 w-full pt-24 pb-16 sm:pt-32 sm:pb-20">
-			<div class="max-w-6xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+			<div class="max-w-6xl mx-auto text-center px-[15%]">
 				<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm text-white/60 mb-6 sm:mb-8 backdrop-blur-sm" x-data="{ show: false }" x-init="setTimeout(() => show = true, 500)" x-show="show" x-transition>
 					<span class="pulse-dot"></span>
 					Обслуживаем <span class="text-white font-semibold">142 сайта</span> в 16 нишах бизнеса
@@ -536,7 +539,7 @@
 	<!-- Stats Table -->
 	<section id="stats" class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[600px] h-[600px] bg-indigo-600/15 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Статистика</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Реальные результаты в 16 нишах бизнеса</h2>
@@ -544,8 +547,8 @@
 			</div>
 
 			<div class="max-w-6xl mx-auto animate-on-scroll">
-				<div class="overflow-x-auto scrollbar-hide -mx-4 sm:mx-0">
-					<table class="w-full text-left min-w-[640px] sm:min-w-0">
+				<div class="overflow-x-auto scrollbar-hide">
+					<table class="w-full text-left min-w-0">
 						<thead>
 							<tr class="text-xs text-white/30 uppercase tracking-widest border-b border-white/10">
 								<th class="pb-4 pr-4 font-medium">Ниша</th>
@@ -695,7 +698,7 @@
 
 	<!-- More Examples -->
 	<section class="relative py-16 overflow-hidden">
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center animate-on-scroll">
 				<a href="https://max.ru/id780619699948_biz" target="_blank" class="inline-flex items-center gap-3 px-10 py-5 text-lg font-bold text-white rounded-2xl btn-primary shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-500">
 					Смотреть больше примеров
@@ -708,7 +711,7 @@
 	<!-- Channels -->
 	<section id="channels" class="relative py-20 sm:py-28 overflow-hidden">
 		<div class="section-glow w-[450px] h-[450px] bg-indigo-500/12 top-10 left-[-120px]"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Каналы продаж</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">В каких ещё каналах работает ИИ-агент продаж?</h2>
@@ -771,7 +774,7 @@
 	<section id="features" class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[500px] h-[500px] bg-purple-600/15 top-0 right-[-100px]"></div>
 		<div class="section-glow w-[400px] h-[400px] bg-indigo-500/12 bottom-0 left-[-80px]"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Возможности</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Всё, чтобы ваш сайт продавал 24/7</h2>
@@ -833,7 +836,7 @@
 	<!-- How it works -->
 	<section class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[500px] h-[500px] bg-purple-600/10 bottom-[-100px] right-1/3"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Как работает</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Три шага к новым заявкам</h2>
@@ -879,7 +882,7 @@
 	<!-- Founder -->
 	<section id="founder" class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[500px] h-[500px] bg-purple-600/12 top-0 left-[-100px]"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Основатель</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Юрий Терентьев</h2>
@@ -940,7 +943,7 @@
 	<!-- Team -->
 	<section id="team" class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[400px] h-[400px] bg-indigo-500/12 top-1/3 right-[-100px]"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Команда</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Люди, которые это делают</h2>
@@ -991,7 +994,7 @@
 	<section id="pricing" class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[600px] h-[600px] bg-indigo-600/15 top-1/3 left-1/3"></div>
 		<div class="section-glow w-[400px] h-[400px] bg-purple-600/12 bottom-0 right-0"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Тарифы</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Начните с бесплатной недели</h2>
@@ -1091,7 +1094,7 @@
 	<!-- FAQ -->
 	<section id="faq" class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[400px] h-[400px] bg-purple-600/12 top-1/3 left-[-100px]"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="text-center mb-12 sm:mb-16 animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Вопросы и ответы</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Часто задаваемые вопросы</h2>
@@ -1145,7 +1148,7 @@
 	<section id="form" class="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
 		<div class="section-glow w-[700px] h-[700px] bg-purple-600/20 top-[-200px] left-1/2 -translate-x-1/2"></div>
 		<div class="section-glow w-[400px] h-[400px] bg-indigo-500/15 bottom-0 right-0"></div>
-		<div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative z-10 container mx-auto px-[15%]">
 			<div class="max-w-2xl mx-auto text-center animate-on-scroll">
 				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Начните бесплатно</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Получите 7 дней бесплатной генерации лидов</h2>
@@ -1189,7 +1192,7 @@
 
 	<!-- Footer -->
 	<footer class="border-t border-white/5 py-10 sm:py-12">
-		<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="container mx-auto px-[15%]">
 			<div class="flex flex-col sm:flex-row items-center justify-between gap-6">
 				<a href="/" class="flex items-center gap-2.5 group">
 					<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center transition-transform duration-500 group-hover:rotate-[-8deg]">
@@ -1219,6 +1222,25 @@
 			}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
 			document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+		})();
+
+		// Animate conversion bars + reveal niches (terpay-style on scroll-in)
+		(function() {
+			const stats = document.getElementById('stats');
+			if (!stats) return;
+			const fills = Array.prototype.slice.call(stats.querySelectorAll('.conversion-fill'));
+			fills.forEach(f => { f.dataset.target = f.style.width; f.style.width = '0%'; });
+			const rows = Array.prototype.slice.call(stats.querySelectorAll('.stat-row'));
+			const io = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						fills.forEach((f, i) => setTimeout(() => { f.style.width = f.dataset.target; }, i * 45));
+						rows.forEach((r, i) => setTimeout(() => { r.classList.add('revealed'); }, i * 55));
+						io.disconnect();
+					}
+				});
+			}, { threshold: 0.15 });
+			io.observe(stats);
 		})();
 	</script>
 
