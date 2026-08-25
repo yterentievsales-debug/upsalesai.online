@@ -21,7 +21,7 @@ Static landing-page site. Single source of truth: `index.html` (no build, no bun
 - Bot link format is `https://max.ru/<username>` — NOT `https://max.ru/u/<username>` (the `/u/` form returns empty `linkInfo` = not found).
   - Current bot: `https://max.ru/id780619699948_bot` (name "Юрий отвечает").
 - MAX API base `https://platform-api2.max.ru`, auth via header `Authorization: <token>`. It sends NO CORS headers, so the browser cannot call it directly. Never embed the bot token in `index.html`.
-- Telegram contact on site: `https://t.me/Iurii_Terentev`.
+- Telegram contact on site: `https://t.me/KVALIFIKATORMOY_BOT`.
 
 ## Gotchas
 - `.gitignore` excludes `*.png`, `*.docx`, `*.ps1`, `*.zip`. If you add PNG images they won't be committed unless force-added or the rule is changed.
