@@ -24,3 +24,7 @@ avatars/backup/
 # Git
 .DS_Store
 Thumbs.db
+
+# Локальные настройки Claude (предпросмотр)
+.claude/
+node_modules/

@@ -3,13 +3,17 @@
 Static landing-page site. Single source of truth: `index.html` (no build, no bundler, no package.json).
 
 ## Commands
-- No build / test / lint. Deploy = commit + push `main` to GitHub → GitHub Pages auto-publishes (build lags ~1–2 min).
+- Deploy = commit + push `main` to GitHub → GitHub Pages auto-publishes (build lags ~1–2 min).
+- CSS is prebuilt (no CDN). After changing Tailwind classes in `index.html`, rebuild and commit `assets/css/tailwind.css`:
+  `npx tailwindcss@3.4.17 -c tailwind.config.js -i src/tailwind.css -o assets/css/tailwind.css --minify`
+  then bump `?v=N` on the `<link>` to `tailwind.css` so browsers drop the cached copy.
 - `git` is NOT in PATH. Use the absolute path: `C:\Program Files\Git\cmd\git.exe`
   - Repo: `yterentievsales-debug/upsalesai.online`, branch `main`.
   - If push is rejected (remote ahead), run `git pull --rebase origin main` then push again.
 
 ## How the site works
-- All markup/CSS/JS is inline in `index.html`. Styling: Tailwind via `https://cdn.tailwindcss.com` (config set inline in a `<script>`) + custom classes in `<style>` (`.btn-primary`, `.glass-card`, `.input-glass`, …). Interactivity: Alpine.js + collapse plugin via jsDelivr. Fonts: Google Fonts (Inter).
+- Markup and custom CSS/JS are inline in `index.html`. Styling: Tailwind compiled to `assets/css/tailwind.css` (config in `tailwind.config.js`) + custom classes in `<style>` (`.btn-primary`, `.glass-card`, `.input-glass`, …). Interactivity: Alpine.js + collapse plugin, pinned copies in `assets/js/`. Fonts: Google Fonts (Inter).
+- Do not go back to `cdn.tailwindcss.com` / jsDelivr: they load slowly or fail from Russia, and the page then renders unstyled with a broken menu/FAQ.
 - `CNAME` must stay and contain `upsalesai.online` (GitHub Pages custom domain). Do not delete.
 - No backend, no forms, no databases. The lead block (`#form`) has only two external links: MAX bot and Telegram.
 
