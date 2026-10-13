@@ -297,6 +297,18 @@
 			box-shadow: 0 20px 40px rgba(91,62,201,0.3);
 		}
 
+		.vid-wrap { max-width: 960px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.35); background: #090E34; }
+		.vid-wrap video { width: 100%; display: block; }
+		.vid-mobile { display: none; max-width: 400px; }
+		@media (max-width: 767px) { .vid-desktop { display: none; } .vid-mobile { display: block; } }
+		#sticky-cta { display: none; }
+		@media (max-width: 767px) {
+			#sticky-cta { display: flex; position: fixed; left: 0; right: 0; bottom: 0; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(9,14,52,0.94); border-top: 1px solid rgba(255,255,255,0.12); z-index: 50; transform: translateY(110%); transition: transform .3s ease; }
+			#sticky-cta.show { transform: none; }
+			#sticky-cta a { flex: 1; text-align: center; padding: 12px 8px; border-radius: 12px; font-size: 14px; font-weight: 600; color: #fff; }
+			#sticky-cta a.s-max { background: #6a4de6; }
+			#sticky-cta a.s-tg { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); }
+		}
 		.btn-outline {
 			border: 1px solid rgba(255,255,255,0.15);
 			background: rgba(255,255,255,0.03);
@@ -476,6 +488,10 @@ ym(113000422, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true,
 					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
 					Написать в МАХ
 				</a>
+				<a href="https://t.me/KVALIFIKATORMOY_BOT?start=site_hero" target="_blank" class="inline-flex items-center gap-2 mt-4 ml-2 px-6 py-3 text-sm font-semibold text-white rounded-xl btn-outline">
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+					Написать в Telegram
+				</a>
 
 				<div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 mt-6 text-xs sm:text-sm text-white/30">
 					<span class="flex items-center gap-1.5">
@@ -494,6 +510,27 @@ ym(113000422, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true,
 		<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden lg:flex flex-col items-center gap-2 text-white/30">
 			<span class="text-xs tracking-widest uppercase">Листайте</span>
 			<svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+		</div>
+	</section>
+
+	<!-- Video -->
+	<section id="video" class="relative py-16 sm:py-24 overflow-hidden">
+		<div class="relative z-10 container mx-auto px-[15%] max-sm:px-4">
+			<div class="text-center mb-8 sm:mb-10">
+				<span class="text-xs font-semibold text-purple-400 uppercase tracking-[0.2em]">Как это работает</span>
+				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4 mb-4">Что происходит, когда клиент пишет ночью</h2>
+				<p class="text-base sm:text-lg text-white/40 max-w-xl mx-auto">1,5 минуты: вопрос на сайте, ответ ИИ-консультанта, запись и заявка в CRM</p>
+			</div>
+			<div class="vid-wrap vid-desktop">
+				<video id="vid-d" controls playsinline preload="none" poster="assets/video/poster-16x9.jpg" data-goal="video">
+					<source src="assets/video/demo-16x9.mp4" type="video/mp4">
+				</video>
+			</div>
+			<div class="vid-wrap vid-mobile">
+				<video id="vid-m" controls playsinline preload="none" poster="assets/video/poster-9x16.jpg" data-goal="video">
+					<source src="assets/video/demo-9x16.mp4" type="video/mp4">
+				</video>
+			</div>
 		</div>
 	</section>
 
@@ -1138,7 +1175,7 @@ ym(113000422, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true,
 						<span class="text-xs px-3 py-1.5 rounded-full border border-white/15 text-white/70">Принципы работающей мотивации с примерами</span>
 					</div>
 
-					<p class="text-xs text-white/30 text-center mt-6">Подключим бесплатную неделю в течение 24 часов</p>
+					<p class="text-xs text-white/30 text-center mt-6">Подключим бесплатную неделю в течение 2 дней</p>
 				</div>
 
 				<div class="flex flex-wrap items-center justify-center gap-6 mt-8 text-xs sm:text-sm text-white/30">
@@ -1211,6 +1248,50 @@ ym(113000422, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true,
 				});
 			}, { threshold: 0.15 });
 			io.observe(stats);
+		})();
+	</script>
+
+	<div id="sticky-cta" aria-label="Написать боту">
+		<a class="s-max" href="https://max.ru/id780619699948_bot?start=site_sticky" target="_blank">Написать в МАХ</a>
+		<a class="s-tg" href="https://t.me/KVALIFIKATORMOY_BOT?start=site_sticky" target="_blank">Telegram</a>
+	</div>
+
+	<script>
+		// Цели Яндекс.Метрики (счётчик 113000422). Идентификаторы целей нужно создать в кабинете Метрики как «JavaScript-событие».
+		(function() {
+			function goal(name) { try { ym(113000422, 'reachGoal', name); } catch (e) {} }
+			document.addEventListener('click', function(e) {
+				var a = e.target.closest ? e.target.closest('a[href]') : null;
+				if (!a) return;
+				var h = a.href, m = h.match(/start=([A-Za-z0-9_]+)/), src = m ? m[1] : 'plain';
+				if (h.indexOf('max.ru/id780619699948_bot') > -1) goal('click_max_' + src);
+				else if (h.indexOf('t.me/KVALIFIKATORMOY_BOT') > -1) goal('click_tg_' + src);
+				else if (a.getAttribute('href') === '#form') goal('click_form_anchor');
+			});
+			var seen = {};
+			var io = new IntersectionObserver(function(entries) {
+				entries.forEach(function(en) {
+					if (en.isIntersecting && !seen[en.target.id]) { seen[en.target.id] = 1; goal('scroll_' + en.target.id); }
+				});
+			}, { threshold: 0.3 });
+			['video', 'stats', 'founder', 'pricing', 'faq', 'form'].forEach(function(id) { var el = document.getElementById(id); if (el) io.observe(el); });
+			['vid-d', 'vid-m'].forEach(function(id) {
+				var v = document.getElementById(id); if (!v) return;
+				var done = {};
+				v.addEventListener('play', function() { if (!done.p) { done.p = 1; goal('video_play'); } });
+				v.addEventListener('timeupdate', function() {
+					if (!v.duration) return;
+					var pc = v.currentTime / v.duration;
+					[25, 50, 75].forEach(function(t) { if (pc * 100 >= t && !done[t]) { done[t] = 1; goal('video_' + t); } });
+				});
+				v.addEventListener('ended', function() { goal('video_100'); });
+			});
+			var bar = document.getElementById('sticky-cta');
+			if (bar) {
+				var hero = document.querySelector('section');
+				var upd = function() { bar.classList.toggle('show', window.scrollY > (hero ? hero.offsetHeight * 0.6 : 500)); };
+				window.addEventListener('scroll', upd, { passive: true }); upd();
+			}
 		})();
 	</script>
 
