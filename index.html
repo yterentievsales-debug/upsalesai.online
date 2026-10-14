@@ -340,8 +340,12 @@
 			box-shadow: 0 20px 40px rgba(91,62,201,0.3);
 		}
 
-		.vid-wrap { max-width: 960px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.35); background: #090E34; }
+		.vid-wrap { position: relative; max-width: 960px; margin: 0 auto; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.35); background: #090E34; }
 		.vid-wrap video { width: 100%; display: block; }
+		.vid-sound { position: absolute; left: 14px; bottom: 64px; z-index: 3; display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: rgba(9,14,52,0.86); border: 1px solid rgba(255,255,255,0.25); color: #fff; font: 600 14px/1 Inter, sans-serif; cursor: pointer; backdrop-filter: blur(6px); }
+		.vid-sound[hidden] { display: none; }
+		.vid-sound svg { width: 18px; height: 18px; }
+		.vid-sound:hover { background: rgba(106,77,230,0.95); }
 		.vid-mobile { display: none; max-width: 400px; }
 		@media (max-width: 767px) { .vid-desktop { display: none; } .vid-mobile { display: block; } }
 		#sticky-cta { display: none; }
@@ -1348,6 +1352,40 @@ ym(113000422, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true,
 				var upd = function() { bar.classList.toggle('show', window.scrollY > (hero ? hero.offsetHeight * 0.6 : 500)); };
 				window.addEventListener('scroll', upd, { passive: true }); upd();
 			}
+		})();
+	</script>
+
+	<script>
+		// Ролик: запуск, когда блок виден на экране; пауза, когда ушли; продолжение с того же места, когда вернулись.
+		// Браузеры не разрешают автозапуск со звуком без действия посетителя: тогда ролик идёт без звука, поверх кнопка «Включить звук».
+		(function() {
+			document.querySelectorAll('.vid-wrap').forEach(function(w) {
+				var v = w.querySelector('video'); if (!v) return;
+				var btn = document.createElement('button');
+				btn.type = 'button'; btn.className = 'vid-sound'; btn.hidden = true; btn.setAttribute('aria-label', 'Включить звук');
+				btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"></path><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"></path></svg><span>Включить звук</span>';
+				w.appendChild(btn);
+				var userPaused = false, autoPaused = false, finished = false;
+				function syncBtn() { btn.hidden = !(v.muted && !v.paused); }
+				btn.addEventListener('click', function() { v.muted = false; v.volume = 1; if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function() {}); } syncBtn(); });
+				v.addEventListener('volumechange', syncBtn);
+				v.addEventListener('play', function() { userPaused = false; syncBtn(); });
+				v.addEventListener('pause', function() { if (autoPaused) { autoPaused = false; } else if (!v.ended) { userPaused = true; } syncBtn(); });
+				v.addEventListener('ended', function() { finished = true; syncBtn(); });
+				function start() {
+					if (userPaused || finished || !v.paused) return;
+					v.muted = false;
+					var p = v.play();
+					if (p && p.catch) p.catch(function() { v.muted = true; var q = v.play(); if (q && q.catch) q.catch(function() {}); });
+				}
+				function stop() { if (!v.paused) { autoPaused = true; v.pause(); } }
+				new IntersectionObserver(function(entries) {
+					entries.forEach(function(e) {
+						if (e.intersectionRatio >= 0.6) start();
+						else if (e.intersectionRatio < 0.25) stop();
+					});
+				}, { threshold: [0, 0.25, 0.6] }).observe(w);
+			});
 		})();
 	</script>
 
