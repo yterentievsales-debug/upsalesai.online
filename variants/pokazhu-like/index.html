@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>upsalesai.online — ваш сайт отвечает клиентам ночью</title>
+<meta name="description" content="ИИ-консультант на вашем сайте отвечает клиентам сразу и круглосуточно, берёт контакты и передаёт заявки в CRM. Настройка за 2 дня, неделя бесплатно.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #FFFFFF;
+  --glass: #EEF1FB;
+  --ink: #12163A;
+  --muted: #5B6183;
+  --line: #DCE0F0;
+  --primary: #6A4DE6;
+  --primary-deep: #4D34C2;
+  --secondary: #C084FC;
+  --mint: #34D399;
+  --mint-ink: #0A6B4A;
+  --mint-bg: #DDF6EB;
+  --bad: #9B1C1C;
+  --bad-bg: #FDECEC;
+  --night: #090E34;
+  --font: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Caveat", cursive;
+  --max: 1080px;
+  --gutter: 20px;
+  --v-ink: var(--ink);
+  --v-ink-soft: var(--muted);
+  --v-surface: #fff;
+  --v-accent: var(--mint);
+  --v-accent-ink: #053b29;
+  --v-font-text: var(--font);
+  --v-shadow-color: 18 22 58;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body { margin: 0; background: var(--white); color: var(--ink); font: 400 1.0625rem/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+h1, h2, h3 { font-weight: 800; letter-spacing: -0.028em; text-wrap: balance; }
+p { text-wrap: pretty; }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; border-radius: 8px; }
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+.hand { font-family: var(--hand); font-weight: 600; color: var(--primary-deep); }
+
+/* кнопки */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 28px; border-radius: 14px; border: 0; font: 600 1.02rem/1 var(--font); text-decoration: none; cursor: pointer; transition: background-color .18s, transform .18s, box-shadow .18s; white-space: nowrap; }
+.btn-primary { background: var(--primary); color: #fff; box-shadow: 0 10px 24px -12px rgb(106 77 230 / .7); }
+.btn-primary:hover { background: var(--primary-deep); }
+.btn-ink { background: var(--ink); color: #fff; }
+.btn-ink:hover { background: #000; }
+.btn-line { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+.btn-line:hover { box-shadow: inset 0 0 0 1.5px var(--primary); }
+.btn:active { transform: translateY(1px); }
+.btn-sm { min-height: 42px; padding: 0 18px; font-size: .95rem; border-radius: 12px; }
+
+/* шапка */
+.top { position: sticky; top: 0; z-index: 40; background: rgb(255 255 255 / .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; letter-spacing: -0.02em; font-size: 1.1rem; }
+.logo img { width: 34px; height: 34px; }
+.top .reply { display: flex; align-items: center; gap: 8px; font-size: .92rem; color: var(--muted); }
+.top .reply i { width: 9px; height: 9px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgb(52 211 153 / .22); }
+
+/* секции */
+.sec { padding-block: clamp(48px, 7vw, 92px); }
+.sec.glass { background: var(--glass); }
+.sec-head { margin-bottom: clamp(26px, 4vw, 44px); max-width: 640px; }
+.sec-head.center { margin-inline: auto; text-align: center; }
+.sec-head h2 { font-size: clamp(1.65rem, 3.2vw, 2.45rem); line-height: 1.1; }
+.sec-head p { margin-top: 12px; color: var(--muted); }
+
+/* hero */
+.hero { padding-block: clamp(36px, 6vw, 72px) clamp(44px, 6vw, 80px); text-align: center; background: linear-gradient(180deg, var(--glass) 0%, #fff 78%); }
+.hero h1 { font-size: clamp(2.2rem, 5.6vw, 3.9rem); line-height: 1.04; letter-spacing: -0.035em; max-width: 15ch; margin-inline: auto; }
+.hero .lead { margin: 20px auto 0; max-width: 52ch; font-size: 1.15rem; color: var(--muted); }
+
+/* шторка «было / стало» */
+.ba-wrap { max-width: 860px; margin: clamp(28px, 4vw, 44px) auto 0; position: relative; }
+.ba-hint { position: absolute; right: 4%; top: -34px; font-size: 1.5rem; display: flex; align-items: flex-end; gap: 4px; transform: rotate(-3deg); pointer-events: none; }
+.ba-hint svg { color: var(--primary-deep); margin-bottom: -12px; }
+.ba { --pos: 50%; border-radius: 22px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 30px 60px -34px rgb(77 52 194 / .45); overflow: hidden; text-align: left; }
+.ba-bar { display: flex; align-items: center; gap: 7px; padding: 11px 16px; background: #F6F7FC; border-bottom: 1px solid var(--line); }
+.ba-bar i { width: 10px; height: 10px; border-radius: 50%; background: #D5D9EA; }
+.ba-bar span { margin-left: 10px; flex: 1; max-width: 300px; padding: 4px 12px; background: #fff; border-radius: 8px; font-size: .82rem; color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); }
+.ba-stage { position: relative; height: 430px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.layer { position: absolute; inset: 0; display: flex; flex-direction: column; background: #fff; }
+.layer.after { clip-path: inset(0 0 0 var(--pos)); }
+.mock-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid var(--line); font-size: .9rem; color: var(--muted); }
+.mock-nav b { color: var(--ink); font-weight: 800; letter-spacing: -0.02em; }
+.mock-nav span { display: flex; gap: 18px; }
+.mock-body { flex: 1; display: grid; place-items: center; padding: 18px 20px 22px; background: linear-gradient(180deg, #fff, #F6F7FC); }
+.mock-body h3 { font-size: 1.25rem; text-align: center; margin-bottom: 14px; letter-spacing: -0.02em; }
+.tag { position: absolute; top: 62px; z-index: 3; padding: 5px 12px; border-radius: 999px; font-size: .8rem; font-weight: 700; }
+.before .tag { left: 16px; background: #ECEEF6; color: var(--muted); }
+.after .tag { right: 16px; background: var(--mint-bg); color: var(--mint-ink); }
+.card { width: min(420px, 100%); background: #fff; border-radius: 18px; padding: 18px; box-shadow: 0 0 0 1px var(--line), 0 14px 30px -20px rgb(18 22 58 / .25); }
+@media (min-width: 701px) {
+  .mock-body { padding-inline: 4%; }
+  .before .mock-body { place-items: center start; }
+  .after .mock-body { place-items: center end; }
+  .card { width: 46%; }
+}
+.field { height: 40px; border-radius: 10px; background: #F4F5FA; margin-bottom: 8px; display: flex; align-items: center; padding: 0 12px; font-size: .9rem; color: #9AA0BD; }
+.fake-btn { margin-top: 4px; height: 42px; border-radius: 10px; background: #CFC6F6; color: #fff; display: grid; place-items: center; font-weight: 600; font-size: .95rem; }
+.wait { margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: var(--bad-bg); color: var(--bad); font-size: .88rem; font-weight: 600; }
+.chat-card { padding: 14px; }
+.chat-card .m { max-width: 88%; padding: 8px 12px; border-radius: 14px; font-size: .88rem; line-height: 1.38; margin-bottom: 7px; }
+.chat-card .c { background: #F0F1F8; border-bottom-left-radius: 4px; }
+.chat-card .a { margin-left: auto; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
+.chat-card .ok { margin-top: 4px; padding: 10px 12px; border-radius: 12px; background: var(--mint-bg); color: var(--mint-ink); font-size: .88rem; font-weight: 700; }
+.handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 0; z-index: 4; pointer-events: none; }
+.handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1.5px; width: 3px; background: var(--primary); }
+.handle b { position: absolute; top: 50%; left: 0; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; background: var(--primary); box-shadow: 0 8px 22px -6px rgb(77 52 194 / .8), 0 0 0 4px #fff; display: grid; place-items: center; color: #fff; }
+.ba-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; z-index: 5; }
+.ba:focus-within .handle b { box-shadow: 0 8px 22px -6px rgb(77 52 194 / .8), 0 0 0 4px #fff, 0 0 0 7px var(--primary); }
+.ba-cap { margin-top: 14px; font-size: .9rem; color: var(--muted); text-align: center; }
+
+.cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+.hero .sub { margin-top: 14px; font-size: .95rem; color: var(--muted); }
+
+/* как это работает */
+.steps { list-style: none; padding: 0; margin: 0; max-width: 720px; margin-inline: auto; counter-reset: s; }
+.steps li { position: relative; padding: 0 0 34px 72px; counter-increment: s; }
+.steps li:last-child { padding-bottom: 0; }
+.steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 48px; height: 48px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px var(--primary); color: var(--primary-deep); display: grid; place-items: center; font-weight: 800; font-size: 1.1rem; }
+.steps li:not(:last-child)::after { content: ""; position: absolute; left: 23.25px; top: 54px; bottom: 6px; width: 1.5px; background: var(--line); }
+.steps h3 { font-size: 1.25rem; line-height: 1.25; letter-spacing: -0.02em; padding-top: 10px; }
+.steps p { margin-top: 6px; color: var(--muted); max-width: 52ch; }
+.steps li.go::before { background: var(--primary); color: #fff; }
+.fine { max-width: 720px; margin: 36px auto 0; padding: 20px 22px; border-radius: 16px; background: #fff; box-shadow: 0 0 0 1px var(--line); font-size: .95rem; color: var(--muted); }
+.fine b { color: var(--ink); }
+
+/* что даёт */
+.gain { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.gain div { padding: 4px 0; }
+.gain .ico { width: 48px; height: 48px; border-radius: 14px; background: var(--glass); color: var(--primary-deep); display: grid; place-items: center; margin-bottom: 14px; }
+.gain h3 { font-size: 1.2rem; letter-spacing: -0.02em; }
+.gain p { margin-top: 6px; color: var(--muted); font-size: .98rem; }
+
+/* ниши */
+.nich { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 36px; }
+.nich a { display: grid; grid-template-columns: minmax(0, 1.2fr) 92px minmax(60px, 1fr) 20px; align-items: center; gap: 14px; padding: 15px 8px; text-decoration: none; border-bottom: 1px solid var(--line); transition: background-color .15s; border-radius: 10px; }
+.nich a:hover { background: #fff; }
+.nich .n { font-weight: 600; }
+.nich .r { white-space: nowrap; font-weight: 800; letter-spacing: -0.02em; font-size: 1.05rem; }
+.nich .t { height: 7px; border-radius: 99px; background: #DCD6F8; position: relative; overflow: hidden; }
+.nich .t i { position: absolute; top: 0; bottom: 0; border-radius: 99px; background: var(--primary); }
+.nich svg { color: var(--primary-deep); }
+.nich-note { margin-top: 20px; font-size: .92rem; color: var(--muted); max-width: 70ch; }
+
+/* что входит */
+.inc { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 40px; }
+.inc li { display: grid; grid-template-columns: 28px 1fr; gap: 14px; }
+.inc li svg { margin-top: 3px; color: var(--primary); }
+.inc b { display: block; font-size: 1.08rem; letter-spacing: -0.01em; }
+.inc span { color: var(--muted); font-size: .96rem; line-height: 1.5; display: block; margin-top: 2px; }
+
+/* сравнение */
+.tbl-wrap { overflow-x: auto; border-radius: 18px; box-shadow: 0 0 0 1px var(--line); background: #fff; }
+table { width: 100%; border-collapse: collapse; min-width: 560px; }
+th, td { padding: 16px 18px; text-align: center; border-bottom: 1px solid var(--line); font-size: .97rem; }
+th:first-child, td:first-child { text-align: left; font-weight: 600; }
+thead th { font-size: 1rem; font-weight: 800; background: #fff; }
+thead th.us { background: var(--primary); color: #fff; }
+td.us { background: rgb(106 77 230 / .06); }
+tr:last-child td { border-bottom: 0; }
+.yes { color: var(--mint-ink); font-weight: 800; }
+.no { color: #A2A8C3; }
+
+/* цена */
+.price { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 0; background: #fff; border-radius: 26px; box-shadow: 0 0 0 1px var(--line), 0 30px 60px -40px rgb(77 52 194 / .4); overflow: hidden; }
+.price .free { padding: clamp(24px, 3.4vw, 40px); background: var(--mint-bg); }
+.price .free h3 { font-size: 1.3rem; }
+.price .big { margin-top: 14px; font-size: clamp(2.8rem, 6vw, 4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.price .big small { font-size: 1.1rem; font-weight: 600; letter-spacing: 0; color: #25604c; margin-left: 6px; }
+.price ul { list-style: none; padding: 0; margin: 20px 0 26px; display: grid; gap: 10px; }
+.price li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: .98rem; }
+.price li svg { margin-top: 3px; color: var(--mint-ink); }
+.price .after-free { padding: clamp(24px, 3.4vw, 40px); display: flex; flex-direction: column; gap: 22px; }
+.tier { padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.tier:last-of-type { border-bottom: 0; padding-bottom: 0; }
+.tier .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tier h4 { margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; }
+.tier .p { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; }
+.tier .p small { font-weight: 500; font-size: .85rem; color: var(--muted); }
+.tier p { margin-top: 6px; color: var(--muted); font-size: .95rem; line-height: 1.5; }
+.price-note { margin-top: 18px; color: var(--muted); font-size: .93rem; max-width: 74ch; }
+
+/* автор */
+.me { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: clamp(22px, 4vw, 48px); align-items: center; }
+.me .photo { position: relative; }
+.me .photo img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 12%; border-radius: 22px; box-shadow: 0 0 0 1px var(--line); }
+.me .photo .hand { position: absolute; right: -14px; bottom: -16px; transform: rotate(-6deg); font-size: 1.6rem; background: #fff; padding: 2px 12px; border-radius: 12px; box-shadow: 0 0 0 1px var(--line); }
+.me h2 { font-size: clamp(1.65rem, 3vw, 2.3rem); line-height: 1.1; }
+.me .role { margin-top: 6px; color: var(--primary-deep); font-weight: 600; }
+.me p.t { margin-top: 14px; color: var(--muted); max-width: 54ch; }
+.me ul { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.me li { padding: 8px 14px; border-radius: 999px; background: var(--glass); font-size: .93rem; }
+.me li b { font-weight: 800; }
+.crew { margin-top: 34px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.crew div { display: grid; grid-template-columns: 52px 1fr; gap: 12px; align-items: center; }
+.crew img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px var(--line); }
+.crew b { display: block; font-size: .97rem; line-height: 1.2; }
+.crew span { font-size: .85rem; color: var(--muted); line-height: 1.25; display: block; }
+.crew-cap { margin-top: 34px; font-weight: 700; }
+
+/* FAQ */
+.faq { max-width: 780px; margin-inline: auto; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; padding: 20px 4px; font-weight: 700; font-size: 1.08rem; display: flex; justify-content: space-between; align-items: center; gap: 16px; letter-spacing: -0.01em; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 24px; height: 24px; border-radius: 50%; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234D34C2' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center / 24px no-repeat; box-shadow: 0 0 0 1px var(--line); transition: transform .25s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq .a { padding: 0 4px 22px; color: var(--muted); max-width: 62ch; }
+
+/* финал */
+.end { text-align: center; background: var(--night); color: #fff; }
+.end h2 { font-size: clamp(1.9rem, 4.2vw, 3rem); line-height: 1.08; max-width: 18ch; margin-inline: auto; }
+.end p { margin: 16px auto 0; color: rgb(255 255 255 / .78); max-width: 50ch; }
+.end .cta-row { margin-top: 28px; }
+.end .btn-line { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .4); }
+.end .btn-line:hover { box-shadow: inset 0 0 0 1.5px #fff; }
+.end .reply { margin-top: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: .95rem; color: rgb(255 255 255 / .8); }
+.end .reply i { width: 9px; height: 9px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgb(52 211 153 / .25); }
+.end .docs { margin: 30px auto 0; max-width: 600px; font-size: .93rem; color: rgb(255 255 255 / .62); }
+
+footer { padding-block: 28px 110px; font-size: .9rem; color: var(--muted); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; justify-content: space-between; }
+footer nav { display: flex; gap: 20px; }
+
+/* виджет-сотрудник: отвечаем сразу, круглосуточно */
+.agent { position: fixed; right: clamp(12px, 2vw, 28px); bottom: clamp(12px, 2.4vh, 28px); z-index: 60;
+  display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--v-ink, #1a1a1a); transition: opacity .25s, transform .25s; }
+.agent.is-hidden { opacity: 0; transform: translateY(12px); pointer-events: none; }
+.agent__bubble { display: grid; gap: 2px; padding: 10px 16px; border-radius: 16px 16px 4px 16px;
+  background: var(--v-surface, #fff); box-shadow: 0 10px 30px rgb(var(--v-shadow-color, 0 0 0) / .22), 0 0 0 1px rgb(18 22 58 / .06);
+  font-family: var(--v-font-text, inherit); line-height: 1.25; max-width: 15rem;
+  opacity: 0; transform: translateY(8px); animation: agent-in .5s 1.4s cubic-bezier(.2,.7,.2,1) forwards; }
+.agent__bubble b { font-size: .95rem; font-weight: 700; }
+.agent__bubble span { font-size: .8rem; color: var(--v-ink-soft, #666); }
+.agent__photo { position: relative; flex: none; width: 64px; height: 64px; border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--v-accent, #2fbf5b), 0 10px 26px rgb(18 22 58 / .3); transition: transform .2s ease-out; }
+.agent__photo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.agent__photo::before { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 2px solid var(--v-accent, #2fbf5b);
+  animation: agent-pulse 2.6s ease-out infinite; pointer-events: none; }
+.agent__photo i { position: absolute; right: 1px; bottom: 1px; width: 15px; height: 15px; border-radius: 50%;
+  background: #2fbf5b; box-shadow: 0 0 0 3px var(--v-surface, #fff); }
+.agent:hover .agent__photo, .agent:focus-visible .agent__photo { transform: scale(1.05); }
+.agent:focus-visible { outline: 2px solid var(--v-accent, #2fbf5b); outline-offset: 4px; border-radius: 40px; }
+@keyframes agent-in { to { opacity: 1; transform: none; } }
+@keyframes agent-pulse { 0% { opacity: .8; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.35); } }
+.agent__photo b { display: none; position: absolute; left: 50%; bottom: -9px; transform: translateX(-50%); padding: 1px 6px; border-radius: 8px;
+  background: var(--v-accent, #2fbf5b); color: var(--v-accent-ink, #fff); font: 700 10px/1.4 var(--v-font-text, sans-serif); white-space: nowrap; }
+
+/* адаптив */
+@media (max-width: 860px) {
+  .gain { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .inc { grid-template-columns: minmax(0, 1fr); }
+  .nich { grid-template-columns: minmax(0, 1fr); }
+  .price { grid-template-columns: minmax(0, 1fr); }
+  .me { grid-template-columns: minmax(0, 1fr); }
+  .me .photo { max-width: 240px; }
+  .crew { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) { .logo span { display: none; } }
+@media (max-width: 600px) {
+  :root { --gutter: 16px; }
+  body { font-size: 1rem; }
+  .top .reply { display: none; }
+  .btn { padding: 0 22px; }
+  .cta-row .btn { width: 100%; }
+  .ba-stage { height: 470px; }
+  .ba-hint { display: none; }
+  .mock-nav span { display: none; }
+  .tag { top: 58px; font-size: .75rem; }
+  table { min-width: 0; table-layout: fixed; }
+  th, td { padding: 12px 6px; font-size: .8rem; }
+  th:first-child, td:first-child { width: 29%; padding-left: 12px; }
+  thead th { font-size: .74rem; padding-inline: 3px; }
+  .steps li { padding-left: 62px; }
+  .steps li::before { width: 42px; height: 42px; }
+  .steps li:not(:last-child)::after { left: 20.25px; top: 48px; }
+  .nich a { grid-template-columns: minmax(0, 1fr) 84px 20px; }
+  .nich .t { display: none; }
+  .crew { grid-template-columns: minmax(0, 1fr); }
+  .agent__bubble { display: none; }
+  .agent__photo { width: 54px; height: 54px; }
+  .agent__photo i { right: -2px; bottom: auto; top: 0; width: 13px; height: 13px; }
+  .agent__photo b { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .agent__bubble { animation: none; opacity: 1; transform: none; }
+  .agent__photo::before { animation: none; opacity: 0; }
+  .btn, .nich a { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="upsalesai.online, наверх"><img src="assets/logo.png" alt="" width="34" height="34"><span>upsalesai.online</span></a>
+    <span class="reply"><i aria-hidden="true"></i>Отвечаем сразу, круглосуточно</span>
+    <a class="btn btn-primary btn-sm" href="#start">Попробовать бесплатно</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>Ваш сайт может отвечать клиентам даже ночью</h1>
+      <p class="lead">ИИ-консультант отвечает на вопросы, берёт контакты и передаёт заявку в CRM. На сайтах-примерах до 70% диалогов заканчиваются заявкой.</p>
+
+      <div class="ba-wrap">
+        <span class="ba-hint hand" aria-hidden="true">потяните шторку
+          <svg width="44" height="34" viewBox="0 0 44 34" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6c14-6 30 2 34 22M38 28l-7-5M38 28l3-8"/></svg>
+        </span>
+        <div class="ba" id="ba">
+          <div class="ba-bar" aria-hidden="true"><i></i><i></i><i></i><span>vash-sait.ru</span></div>
+          <div class="ba-stage" id="stage">
+            <div class="layer before">
+              <span class="tag">Было</span>
+              <div class="mock-nav"><b>Окна и балконы</b><span><em style="font-style:normal">Цены</em><em style="font-style:normal">Работы</em><em style="font-style:normal">Контакты</em></span></div>
+              <div class="mock-body">
+                <div class="card">
+                  <h3>Оставьте заявку, мы перезвоним</h3>
+                  <div class="field">Ваше имя</div>
+                  <div class="field">Телефон</div>
+                  <div class="fake-btn">Отправить</div>
+                  <div class="wait">02:14. Менеджеры ответят с 9:00. Клиент уходит к тем, кто ответил.</div>
+                </div>
+              </div>
+            </div>
+            <div class="layer after">
+              <span class="tag">Стало</span>
+              <div class="mock-nav"><b>Окна и балконы</b><span><em style="font-style:normal">Цены</em><em style="font-style:normal">Работы</em><em style="font-style:normal">Контакты</em></span></div>
+              <div class="mock-body">
+                <div class="card chat-card">
+                  <div class="m c">Сколько стоит остеклить балкон?</div>
+                  <div class="m a">Зависит от размера. Какая длина балкона и этаж?</div>
+                  <div class="m c">3 метра, 5 этаж</div>
+                  <div class="m a">Передам мастеру на замер. Оставьте имя и телефон?</div>
+                  <div class="m c">Анна, +7 912 000-00-00</div>
+                  <div class="ok">02:16. Заявка в CRM: Анна, балкон 3 м</div>
+                </div>
+              </div>
+            </div>
+            <div class="handle" aria-hidden="true">
+              <b><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l-5 6 5 6M14 5l5 6-5 6"/></svg></b>
+            </div>
+            <input class="ba-range" id="range" type="range" min="0" max="100" value="50" aria-label="Сравнить сайт без консультанта и с консультантом">
+          </div>
+        </div>
+        <p class="ba-cap">Пример диалога. Слева сайт без консультанта, справа с ним.</p>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://max.ru/id780619699948_bot?start=p2_hero" target="_blank" rel="noopener">Попробовать 7 дней бесплатно в МАХ</a>
+        <a class="btn btn-line" href="https://t.me/KVALIFIKATORMOY_BOT?start=p2_hero" target="_blank" rel="noopener">Написать в Telegram</a>
+      </div>
+      <p class="sub">Настройка за 2 дня. Дальше от 10 000 ₽ в месяц.</p>
+    </div>
+  </section>
+
+  <section class="sec glass" id="put">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Сначала смотрите, потом решаете</h2>
+        <p>Как это устроено: от первого сообщения до оплаты.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <h3>Пишете нам в МАХ или Telegram</h3>
+          <p>Бот задаёт 7 вопросов о вашем бизнесе. Это около 2 минут, разбираться ни в чём не нужно.</p>
+        </li>
+        <li>
+          <h3>Мы настраиваем за 2 дня</h3>
+          <p>Консультант изучает ваш сайт: услуги, цены, условия и контакты. Отвечает как опытный менеджер.</p>
+        </li>
+        <li>
+          <h3>Неделя бесплатно</h3>
+          <p>Консультант работает на вашем сайте, а вы смотрите, какие вопросы задают клиенты и сколько заявок приходит.</p>
+        </li>
+        <li>
+          <h3>Отчёт на 5–6 день</h3>
+          <p>Показываем в цифрах: сколько было диалогов и сколько из них стали заявками.</p>
+        </li>
+        <li class="go">
+          <h3>Решаете, остаться ли</h3>
+          <p>Нравится — продолжаем, от 10 000 ₽ в месяц. Не нравится — просто не продолжаете.</p>
+        </li>
+      </ol>
+      <div class="fine"><b>Что входит в бесплатную неделю.</b> Полный функционал консультанта, подключение к вашему сайту, до 500 диалогов и базовая статистика. Оплата не нужна.</div>
+    </div>
+  </section>
+
+  <section class="sec" id="gain">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Что это даёт вашему бизнесу</h2>
+      </div>
+      <div class="gain">
+        <div>
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <h3>Заявки приходят ночью</h3>
+          <p>Консультант работает в выходные и праздники. Клиент получает ответ, пока вы спите.</p>
+        </div>
+        <div>
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></span>
+          <h3>Ответ сразу</h3>
+          <p>Клиент не ждёт и не уходит к конкуренту. Цены и условия он узнаёт в диалоге.</p>
+        </div>
+        <div>
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
+          <h3>Контакты не теряются</h3>
+          <p>Имя и телефон попадают прямо в вашу CRM. Рекламный бюджет увеличивать не нужно.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec glass" id="primery">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Попробуйте так, как попробует ваш клиент</h2>
+        <p>Откройте любой сайт-пример и задайте консультанту вопрос. Справа конверсия диалогов в заявки по каждой нише.</p>
+      </div>
+      <div class="nich" id="nich"></div>
+      <p class="nich-note">Диапазоны по отдельным подключённым сайтам. Это не гарантия результата: он зависит от ниши, трафика и скорости ответа менеджеров.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="vhodit">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Что входит, вам ни в чём не нужно разбираться</h2>
+      </div>
+      <ul class="inc">
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><div><b>Консультант под вашу нишу</b><span>Изучает услуги, цены и условия с вашего сайта и отвечает на языке ваших клиентов.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><div><b>Настройка за 2 дня</b><span>Программист не нужен: достаточно адреса сайта и ответов на 7 вопросов бота.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><div><b>Заявки в вашу CRM</b><span>Звонок, обратный звонок или консультация: контакты передаются автоматически.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><div><b>Не только сайт</b><span>ВКонтакте, Телеграм, Нельзяграм, Авито, МАХ и WhatsApp: один консультант во всех каналах.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><div><b>Статистика диалогов</b><span>Видно, о чём спрашивают клиенты и сколько диалогов стало заявками.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><div><b>Поддержка</b><span>Консультант обновляется под новые версии нейросетей, а вопросы вы задаёте в чате.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec glass" id="sravnenie">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Чем лучше формы на сайте и чата с менеджером</h2>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Возможность</span></th><th scope="col">Форма на сайте</th><th scope="col">Менеджер в чате</th><th scope="col" class="us">ИИ-консультант</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Отвечает сразу</td><td class="no" aria-label="нет">—</td><td class="no" aria-label="не всегда">не всегда</td><td class="us yes" aria-label="да">Да</td></tr>
+            <tr><td>Работает ночью и в выходные</td><td class="no" aria-label="нет">—</td><td class="no" aria-label="нет">—</td><td class="us yes" aria-label="да">Да</td></tr>
+            <tr><td>Отвечает на вопросы о ценах и условиях</td><td class="no" aria-label="нет">—</td><td class="yes" aria-label="да">Да</td><td class="us yes" aria-label="да">Да</td></tr>
+            <tr><td>Берёт контакты прямо в диалоге</td><td class="yes" aria-label="да">Да</td><td class="yes" aria-label="да">Да</td><td class="us yes" aria-label="да">Да</td></tr>
+            <tr><td>Передаёт заявку в CRM сам</td><td class="no" aria-label="нет">—</td><td class="no" aria-label="нет">—</td><td class="us yes" aria-label="да">Да</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="tarify">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Сколько это стоит</h2>
+        <p>Неделя бесплатно. Дальше от 10 000 ₽ в месяц, точная цена зависит от посещаемости вашего сайта.</p>
+      </div>
+      <div class="price">
+        <div class="free">
+          <h3>Первая неделя</h3>
+          <div class="big">0 ₽<small>7 дней</small></div>
+          <ul>
+            <li><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l4 4 9-9"/></svg>Полный функционал консультанта</li>
+            <li><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l4 4 9-9"/></svg>До 500 диалогов</li>
+            <li><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l4 4 9-9"/></svg>Подключение к вашему сайту</li>
+            <li><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l4 4 9-9"/></svg>Базовая статистика</li>
+          </ul>
+          <a class="btn btn-ink" href="https://max.ru/id780619699948_bot?start=p2_price" target="_blank" rel="noopener">Попробовать бесплатно</a>
+        </div>
+        <div class="after-free">
+          <div class="tier">
+            <div class="row"><h4>Базовый</h4><span class="p">10 000 ₽ <small>в месяц</small></span></div>
+            <p>Для небольших и средних компаний. Неограниченные диалоги, настройка сценариев общения, интеграция с CRM, подробная статистика, поддержка по email и в чате.</p>
+          </div>
+          <div class="tier">
+            <div class="row"><h4>Профи</h4><span class="p">25 000 ₽ <small>в месяц</small></span></div>
+            <p>Для сетей и крупного бизнеса. Всё из Базового, до 5 сайтов, приоритетная поддержка 24/7, индивидуальная настройка и выделенный менеджер.</p>
+          </div>
+        </div>
+      </div>
+      <p class="price-note">Решение об оплате вы принимаете после недели работы и отчёта в цифрах.</p>
+    </div>
+  </section>
+
+  <section class="sec glass" id="o-nas">
+    <div class="wrap">
+      <div class="me">
+        <div class="photo">
+          <img src="assets/yuri.webp" alt="Юрий Терентьев, основатель upsalesai.online" width="900" height="1350" loading="lazy">
+          <span class="hand" aria-hidden="true">это я</span>
+        </div>
+        <div>
+          <h2>Юрий Терентьев</h2>
+          <p class="role">Основатель upsalesai.online</p>
+          <p class="t">Степень МВА, звание «Лучший директор по продажам РФ». Знаю продажи изнутри, поэтому настраиваю консультанта так, чтобы он продавал, а не просто отвечал.</p>
+          <ul>
+            <li><b>30</b> отделов продаж построено</li>
+            <li><b>200</b> менеджеров обучено с нуля</li>
+            <li><b>100</b> проектов с ИИ для бизнеса</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px">
+            <a class="btn btn-primary btn-sm" href="https://t.me/KVALIFIKATORMOY_BOT?start=p2_founder" target="_blank" rel="noopener">Связаться со мной</a>
+            <a class="btn btn-line btn-sm" href="https://t.me/upsales_school" target="_blank" rel="noopener">Канал в Telegram</a>
+          </div>
+        </div>
+      </div>
+      <p class="crew-cap">Команда, которая внедряет ИИ в бизнес с 2022 года</p>
+      <div class="crew" style="margin-top:14px">
+        <div><img src="assets/svyatoslav.webp" alt="" width="52" height="52" loading="lazy"><p><b>Святослав</b><span>Главный разработчик</span></p></div>
+        <div><img src="assets/maria.webp" alt="" width="52" height="52" loading="lazy"><p><b>Мария</b><span>Руководитель проектов</span></p></div>
+        <div><img src="assets/lika.webp" alt="" width="52" height="52" loading="lazy"><p><b>Лика</b><span>Промпт-инженер</span></p></div>
+        <div><img src="assets/daniil.webp" alt="" width="52" height="52" loading="lazy"><p><b>Даниил</b><span>Руководитель проектов</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="voprosy">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Частые вопросы</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>А если не понравится?</summary>
+          <div class="a">Первая неделя бесплатная. На 5–6 день мы показываем отчёт в цифрах, и вы решаете, продолжать ли. Если не продолжаете, платить не нужно.</div>
+        </details>
+        <details>
+          <summary>Как быстро консультант начнёт приносить заявки?</summary>
+          <div class="a">Настройка занимает 2 дня после изучения вашего сайта. Заявки появляются с первой минуты работы.</div>
+        </details>
+        <details>
+          <summary>Что значит «7 вопросов»?</summary>
+          <div class="a">Бот в Telegram или МАХ задаёт 7 вопросов о вашем бизнесе, это около 2 минут. По ответам мы настраиваем консультанта.</div>
+        </details>
+        <details>
+          <summary>Сколько это стоит?</summary>
+          <div class="a">Первая неделя бесплатно. Дальше от 10 000 ₽ в месяц, точная цена зависит от посещаемости сайта. Рекламный бюджет увеличивать не нужно.</div>
+        </details>
+        <details>
+          <summary>На каких нейросетях он работает?</summary>
+          <div class="a">На современных моделях GPT и Claude. Мы обучаем их под тематику вашего бизнеса и переводим на новые версии, как только они выходят.</div>
+        </details>
+        <details>
+          <summary>Повысит ли он конверсию моего сайта?</summary>
+          <div class="a">Диалоги с консультантом превращаются в заявки: на наших сайтах-примерах показатель доходит до 70%. Диапазоны по нишам выше. Это не гарантия результата: он зависит от ниши, трафика и скорости ответа менеджеров.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec end" id="start">
+    <div class="wrap">
+      <h2>Покажем, как консультант отвечает на вашем сайте</h2>
+      <p>Напишите нам в мессенджер: бот задаст 7 вопросов, а через 2 дня консультант заработает на вашем сайте. Первая неделя бесплатно.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://max.ru/id780619699948_bot?start=p2_final" target="_blank" rel="noopener">Написать в МАХ</a>
+        <a class="btn btn-line" href="https://t.me/KVALIFIKATORMOY_BOT?start=p2_final" target="_blank" rel="noopener">Написать в Telegram</a>
+      </div>
+      <span class="reply"><i aria-hidden="true"></i>В мессенджере отвечаем сразу, круглосуточно</span>
+      <p class="docs">По ссылке вы получите не только примеры работающих сайтов, но и документы для роста бизнеса: должностные инструкции, бизнес-промты, скрипты и принципы работающей мотивации.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top"><img src="assets/logo.png" alt="" width="34" height="34"><span>upsalesai.online</span></a>
+    <span>© 2026 upsalesai.online. ИИ-консультант для повышения конверсии сайтов.</span>
+    <nav aria-label="Контакты">
+      <a href="https://t.me/KVALIFIKATORMOY_BOT?start=p2_footer" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://max.ru/id780619699948_bot?start=p2_footer" target="_blank" rel="noopener">МАХ</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- agent-widget -->
+<a class="agent" href="#start" aria-label="Написать нам: отвечаем сразу, круглосуточно">
+  <span class="agent__bubble"><b>Отвечаем сразу</b><span>круглосуточно, менеджер на связи</span></span>
+  <span class="agent__photo"><img src="assets/manager.webp" alt="" width="64" height="64" loading="lazy"><i aria-hidden="true"></i><b aria-hidden="true">24/7</b></span>
+</a>
+<!-- /agent-widget -->
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 16 ниш */
+  var niches = [
+    ['Автобизнес', 32, 86, '32–86%', 'https://darexmoto.ru'],
+    ['Бытовые услуги', 50, 54, '50–54%', 'https://nashevremya.net'],
+    ['Красота и здоровье', 55, 90, '55–90%', 'https://bcroc.ru'],
+    ['Логистика и склады', 52, 78, '52–78%', 'https://loglab.ru'],
+    ['Мебель', 56, 57, '56–57%', 'https://p-mebel.com'],
+    ['Медицина', 44, 86, '44–86%', 'https://doct.ru'],
+    ['Недвижимость', 34, 82, '34–82%', 'https://green-garden.ru'],
+    ['Оборудование', 41, 83, '41–83%', 'https://avantaauto.ru'],
+    ['Образование', 53, 73, '53–73%', 'https://yarkiedeti.ru'],
+    ['Окна и балконы', 55, 99, '55–99%+', 'https://fabrikauyuta.ru'],
+    ['Отдых и развлечения', 55, 88, '55–88%', 'https://malina-ecopark.ru'],
+    ['Производство', 38, 99, '38–99%+', 'https://naves-777.ru'],
+    ['Строительство и ремонт', 20, 84, '20–84%', 'https://stroyka-market.com'],
+    ['Торговля', 14, 83, '14–83%', 'https://dverineva.ru'],
+    ['Услуги для бизнеса', 40, 85, '40–85%', 'https://nova-invest.pro'],
+    ['Электростанции', 59, 59, '59%', 'https://wattico.ru']
+  ];
+  var box = document.getElementById('nich');
+  var arrow = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>';
+  niches.forEach(function (n) {
+    var a = document.createElement('a');
+    a.href = n[4]; a.target = '_blank'; a.rel = 'noopener';
+    a.setAttribute('aria-label', n[0] + ': конверсия ' + n[3] + '. Открыть сайт-пример');
+    var w = Math.max(n[2] - n[1], 4);
+    a.innerHTML = '<span class="n">' + n[0] + '</span><span class="r">' + n[3] + '</span>' +
+      '<span class="t" aria-hidden="true"><i style="left:' + Math.min(n[1], 100 - w) + '%;width:' + w + '%"></i></span>' + arrow;
+    box.appendChild(a);
+  });
+
+  /* шторка было / стало */
+  var ba = document.getElementById('ba');
+  var range = document.getElementById('range');
+  function setPos(v) { ba.style.setProperty('--pos', v + '%'); }
+  range.addEventListener('input', function () { setPos(range.value); });
+  setPos(50);
+
+  /* один раз показываем, что шторка двигается */
+  var touched = false;
+  range.addEventListener('pointerdown', function () { touched = true; });
+  range.addEventListener('keydown', function () { touched = true; });
+  if (!reduce && 'IntersectionObserver' in window) {
+    var played = false;
+    new IntersectionObserver(function (e, obs) {
+      if (!e[0].isIntersecting || played) return;
+      played = true; obs.disconnect();
+      var t0 = null, from = 50;
+      function frame(ts) {
+        if (touched) return;
+        if (t0 === null) t0 = ts;
+        var p = (ts - t0) / 2400;
+        if (p >= 1) { range.value = from; setPos(from); return; }
+        var v = from + Math.sin(p * Math.PI * 2) * 22 * (1 - p * 0.4);
+        range.value = v; setPos(v);
+        requestAnimationFrame(frame);
+      }
+      setTimeout(function () { requestAnimationFrame(frame); }, 600);
+    }, { threshold: 0.6 }).observe(ba);
+  }
+
+  /* виджет-сотрудник прячется, когда видна финальная форма */
+  var agent = document.querySelector('.agent');
+  var end = document.getElementById('start');
+  if ('IntersectionObserver' in window && agent && end) {
+    new IntersectionObserver(function (e) { agent.classList.toggle('is-hidden', e[0].isIntersecting); }, { threshold: 0.25 }).observe(end);
+  }
+})();
+</script>
+</body>
+</html>
